@@ -13,6 +13,7 @@ import Login from './Login';
 import CurrentUserContext from '../contexts/CurrentUserContext';
 import apiConnect from '../utils/Api';
 import apiAuth from '../utils/AuthApi';
+import InfoTooltip from "./InfoTooltip";
 
 function App () {
   // Стейты
@@ -175,6 +176,10 @@ function App () {
           isOpen = { isImageOpen }
           onClose = { closeAllPopups }
           card = { selectedCard } />
+        < InfoTooltip
+          isOpen = { tooltipOpen }
+          onClose = { closeAllPopups }
+          status = { status } />
       </div>
     < /CurrentUserContext.Provider >
   );

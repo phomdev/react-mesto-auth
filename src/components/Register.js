@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import InfoTooltip from './InfoTooltip';
 
 function Register (props) {
   // Стейты для регистрации
@@ -13,6 +12,8 @@ function Register (props) {
   function handleSubmitButton (event) {
     event.preventDefault();
     props.handleRegister(password, email);
+    setPassword('');
+    setEmail('');
   }
 
   return (
@@ -37,10 +38,6 @@ function Register (props) {
           < Link to="sign-in" className="auth__link">Войти< /Link>
         </div>
       </div>
-      < InfoTooltip
-        isOpen = { props.isOpen }
-        onClose = { props.onClose }
-        status = { props.status } />
     </>
   )
 }

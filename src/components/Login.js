@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import InfoTooltip from "./InfoTooltip";
 
 function Login (props) {
   // Стейты авторизации
@@ -34,10 +33,6 @@ function Login (props) {
           <button type="submit" className="auth__button" aria-label="Войти">Войти</button>
         </form>
       </div>
-      < InfoTooltip
-        isOpen = { props.isOpen }
-        onClose = { props.onClose }
-        status = { props.status } />
     </>
   )
 }
