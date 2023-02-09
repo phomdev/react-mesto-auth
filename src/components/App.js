@@ -1,13 +1,18 @@
 import React, { useEffect, useState } from 'react';
+import { Route, Switch, useHistory } from 'react-router-dom';
 import Header from './Header';
 import Main from './Main';
 import Footer from './Footer';
 import ImagePopup from './ImagePopup';
 import PopupEditAvatar from './PopupEditAvatar';
-import PopupEditProfile from "./PopupEditProfile";
+import PopupEditProfile from './PopupEditProfile';
 import PopupAddCard from './PopupAddCard';
+import ProtectedRoute from './ProtectedRoute';
+import Register from './Register';
+import Login from './Login';
 import CurrentUserContext from '../contexts/CurrentUserContext';
 import apiConnect from '../utils/Api';
+import apiAuth from '../utils/AuthApi';
 
 function App () {
   // Стейты
@@ -18,6 +23,12 @@ function App () {
   const [selectedCard, setSelectedCard] = useState({}); // Передача данных при увеличении изображения
   const [cards, setCards] = useState([]); // Инициализация карточек
   const [currentUser, setCurrentUser] = useState({}); // Значение для провайдера контекста
+  const [email, setEmail] = useState(''); // Хранение и передача почты
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // Состояние авторизации
+  const [status, setStatus] = useState(false); // Статус регистрации(авторизации), используется для Tooltip (popup уведомления)
+  const [tooltipOpen, setTooltipOpen] = useState(false); // Состояние Tooltip
+  // Переменная для хранения истории
+  const history = useHistory();
   // Рендер карточек и данных пользователя
   useEffect( () => {
     Promise.all([ apiConnect.getUserData(), apiConnect.getInitialCards() ])
@@ -27,6 +38,14 @@ function App () {
       })
       .catch( (err) => { console.log(`Возникла глобальная ошибка, ${err}`) })
   }, [])
+  // Верификация токена пользователя
+  useEffect( () => {
+    const userToken = localStorage.getItem('token')
+    if (userToken) { apiAuth.tokenVerification(userToken)
+        .then( (res) => { setEmail(res.data.email); setIsLoggedIn(true); history.push('/') })
+        .catch( (err) => { console.log(`Возникла ошибка верификации токена, ${err}`) })
+    }
+  }, [history, isLoggedIn])
   // Обработчик открытия попапа обновления аватара
   function handleEditAvatarClick () { setIsEditAvatarPopupOpen(true) }
   // Обработчик открытия попапа редактирования профиля
@@ -81,20 +100,64 @@ function App () {
     setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
     setIsImageOpen(false);
+    setTooltipOpen(false);
   }
+  // Функция регистрации пользователя (при успехе(и нет) всплывает popup через Tooltip используя статус)
+  function handleRegister (password, email) {
+    apiAuth.userRegistration(password, email)
+      .then( () => { setTooltipOpen(true); setStatus(true) })
+      .catch( (err) => { console.log(`Возникла ошибка при регистрации пользователя, ${err}`); setTooltipOpen(true); setStatus(false) })
+  }
+  // Функция авторизации пользователя (при неудаче всплывает popup через Tooltip используя статус)
+  function handleLogin (password, email) {
+    apiAuth.userAuthorization(password, email)
+      .then( (res) => {
+        // Если токен валиден, авторизовываем и перебрасывам на главную
+        if (res.token) {
+          localStorage.setItem('token', res.token);
+          setEmail(email);
+          setIsLoggedIn(true);
+          history.push('/');
+        }
+      })
+      .catch( (err) => { console.log(`Возникла ошибка при авторизации, ${err}`); setTooltipOpen(true); setStatus(false) })
+  }
+  // Функция выхода пользователя
+  function handleLogout () { localStorage.removeItem('token'); setIsLoggedIn(false);  }
 
   return (
     < CurrentUserContext.Provider value={ currentUser } >
       <div className="page">
-        < Header />
-        < Main
-          onEditAvatar = { handleEditAvatarClick }
-          onEditProfile = { handleEditProfileClick }
-          onAddPlace = { handleAddPlaceClick }
-          onCardClick = { handleCardClick }
-          onCardDelete = { handleCardDelete }
-          onCardLike = { handleCardLike }
-          cards={ cards } />
+        < Header
+          isLoggedIn = { isLoggedIn }
+          email = { email }
+          isLogout = { handleLogout } />
+        < Switch>
+          < ProtectedRoute exact path='/'
+            isLoggedIn = { isLoggedIn }
+            component = { Main }
+            onEditAvatar = { handleEditAvatarClick }
+            onEditProfile = { handleEditProfileClick }
+            onAddPlace = { handleAddPlaceClick }
+            onCardClick = { handleCardClick }
+            onCardDelete = { handleCardDelete }
+            onCardLike = { handleCardLike }
+            cards = { cards } />
+          < Route path = { `/sign-in` }>
+            < Login
+              handleLogin = { handleLogin }
+              isOpen = { tooltipOpen }
+              onClose = { closeAllPopups }
+              status = { status } />
+          < /Route>
+          < Route path = { `/sign-up` }>
+            < Register
+              handleRegister = { handleRegister }
+              isOpen = { tooltipOpen }
+              onClose = { closeAllPopups }
+              status = { status } />
+          < /Route>
+        < /Switch>
         < Footer />
         < PopupEditAvatar
           isOpen = { isEditAvatarPopupOpen }

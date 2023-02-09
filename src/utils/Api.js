@@ -19,7 +19,7 @@ class Api {
       headers: this._headers
       // По умолчанию fetch — это GET, можно не указывать
     })
-      .then(res => { return this._processingServerResponse(res); })
+      .then(this._processingServerResponse)
   }
   // Метод добавления новой карточки на сервер
   addNewCard (name, link) {
@@ -28,7 +28,7 @@ class Api {
       method: 'POST',
       body: JSON.stringify({ name, link })
     })
-      .then(res => { return this._processingServerResponse(res); })
+      .then(this._processingServerResponse)
   }
   // Метод удаления карточки с сервера
   deleteCard (cardId) {
@@ -36,7 +36,7 @@ class Api {
       headers: this._headers,
       method: 'DELETE',
     })
-      .then(res => { return this._processingServerResponse(res); })
+      .then(this._processingServerResponse)
   }
   // Метод получения данных пользователя с сервера
   getUserData () {
@@ -44,7 +44,7 @@ class Api {
       headers: this._headers
       // По умолчанию fetch — это GET, можно не указывать
     })
-      .then(res => { return this._processingServerResponse(res); })
+      .then( this._processingServerResponse)
   }
   // Метод отправки данных пользователя на сервер
   sendUserData (userName, userAbout) {
@@ -53,7 +53,7 @@ class Api {
       method: 'PATCH',
       body: JSON.stringify({ name: userName, about: userAbout })
     })
-      .then(res => { return this._processingServerResponse(res); })
+      .then(this._processingServerResponse)
   }
   // Метод отправки данных о новом аватаре на сервер
   sendAvatarData (avatarLink) {
@@ -62,7 +62,7 @@ class Api {
       method: 'PATCH',
       body: JSON.stringify({ avatar: avatarLink.avatar })
     })
-      .then(res => { return this._processingServerResponse(res); })
+      .then(this._processingServerResponse)
   }
   // Метод обработки лайков карточки
   changeLikeCardStatus (cardId, isLiked) {
@@ -71,18 +71,18 @@ class Api {
         headers: this._headers,
         method: 'PUT',
       })
-      .then(res => { return this._processingServerResponse(res); })
+      .then(this._processingServerResponse)
     } else {
       return fetch(`${this._link}cards/${cardId}/likes`, {
         headers: this._headers,
         method: 'DELETE',
       })
-      .then(res => { return this._processingServerResponse(res); })
+      .then(this._processingServerResponse)
     }
   }
 }
+
 // Создание экземпляра класса
 const apiConnect = new Api(apiFindings);
-
 // Экспорт экземпляра класса
 export default apiConnect;

@@ -1,0 +1,15 @@
+.header__menu-item {
+  text-decoration: none;
+  color: #FFF;
+  font-size: 18px;
+  line-height: 22px;
+  margin: 0;
+  padding: 0;
+}
+
+@media screen and (max-width: 644px) {
+  .header__menu-item {
+    font-size: 13px;
+    line-height: 12px;
+  }
+}
