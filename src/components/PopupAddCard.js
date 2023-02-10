@@ -17,7 +17,7 @@ function PopupAddCard (props) {
   }
 
   return (
-    < PopupWithForm
+    <PopupWithForm
       isOpen = { props.isOpen }
       onClose = { props.onClose }
       onSubmit= { handleSubmit }
@@ -35,7 +35,7 @@ function PopupAddCard (props) {
                  name="placeimage" required placeholder="Ссылка на картинку" ref={ cardLink } />
           <span className="place-image-input-error popup__input-error" />
         </label>
-    < /PopupWithForm>
+    </PopupWithForm>
   )
 }
 

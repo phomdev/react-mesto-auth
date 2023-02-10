@@ -12,7 +12,7 @@ function PopupEditAvatar (props) {
   }
 
   return (
-    < PopupWithForm
+    <PopupWithForm
       isOpen = { props.isOpen }
       onClose = { props.onClose }
       onSubmit = { handleSubmit }
@@ -24,7 +24,7 @@ function PopupEditAvatar (props) {
                  name="avatar" required placeholder="Введите ссылку на аватар" ref={ avatarRef } minLength="2" maxLength="200" />
           <span className="avatar-input-error popup__input-error" />
         </label>
-    < /PopupWithForm>
+    </PopupWithForm>
   )
 }
 

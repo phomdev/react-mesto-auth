@@ -127,14 +127,14 @@ function App () {
   function handleLogout () { localStorage.removeItem('token'); setIsLoggedIn(false);  }
 
   return (
-    < CurrentUserContext.Provider value={ currentUser } >
+    <CurrentUserContext.Provider value={ currentUser } >
       <div className="page">
-        < Header
+        <Header
           isLoggedIn = { isLoggedIn }
           email = { email }
           isLogout = { handleLogout } />
-        < Switch>
-          < ProtectedRoute exact path='/'
+        <Switch>
+          <ProtectedRoute exact path='/'
             isLoggedIn = { isLoggedIn }
             component = { Main }
             onEditAvatar = { handleEditAvatarClick }
@@ -144,44 +144,44 @@ function App () {
             onCardDelete = { handleCardDelete }
             onCardLike = { handleCardLike }
             cards = { cards } />
-          < Route path = { `/sign-in` }>
-            < Login
+          <Route path = { `/sign-in` }>
+            <Login
               handleLogin = { handleLogin }
               isOpen = { tooltipOpen }
               onClose = { closeAllPopups }
               status = { status } />
-          < /Route>
-          < Route path = { `/sign-up` }>
-            < Register
+          </Route>
+          <Route path = { `/sign-up` }>
+            <Register
               handleRegister = { handleRegister }
               isOpen = { tooltipOpen }
               onClose = { closeAllPopups }
               status = { status } />
-          < /Route>
-        < /Switch>
-        < Footer />
-        < PopupEditAvatar
+          </Route>
+        </Switch>
+        <Footer />
+        <PopupEditAvatar
           isOpen = { isEditAvatarPopupOpen }
           onClose = { closeAllPopups }
           onUpdateAvatar = { handleUpdateAvatar } />
-        < PopupEditProfile
+        <PopupEditProfile
           isOpen = { isEditProfilePopupOpen }
           onClose = { closeAllPopups }
           onUpdateUser = { handleUpdateUser }/>
-        < PopupAddCard
+        <PopupAddCard
           isOpen = { isAddPlacePopupOpen }
           onClose = { closeAllPopups }
           onAddPlace = { handleAddCard } />
-        < ImagePopup
+        <ImagePopup
           isOpen = { isImageOpen }
           onClose = { closeAllPopups }
           card = { selectedCard } />
-        < InfoTooltip
+        <InfoTooltip
           isOpen = { tooltipOpen }
           onClose = { closeAllPopups }
           status = { status } />
       </div>
-    < /CurrentUserContext.Provider >
+    </CurrentUserContext.Provider >
   );
 }
 

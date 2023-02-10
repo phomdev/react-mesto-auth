@@ -4,7 +4,7 @@ function ImagePopup (props) {
   return (
     <div className={ `popup popup_zoom_active ${ props.isOpen ? 'popup_opened' : '' }` } id={ props.id }>
       <div className="popup__zoom-container">
-        < button
+        <button
           type="button"
           className="popup__close"
           onClick={ props.onClose }

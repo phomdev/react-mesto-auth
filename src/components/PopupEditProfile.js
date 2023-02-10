@@ -9,7 +9,7 @@ function PopupEditProfile (props) {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   // Эффект заполнения корректными данными при открытии формы
-  useEffect( () => { setName(userItem.name); setDescription(userItem.about) }, [ props.isOpen ]);
+  useEffect( () => { setName(userItem.name); setDescription(userItem.about) }, [props.isOpen, userItem.about, userItem.name] );
   function handleSubmit (event) {
     event.preventDefault();
     props.onUpdateUser( { name: name, about: description } );
@@ -18,7 +18,7 @@ function PopupEditProfile (props) {
   function handleDescription (event) { setDescription(event.target.value) }
 
   return (
-    < PopupWithForm
+    <PopupWithForm
       isOpen = { props.isOpen }
       onClose = { props.onClose }
       onSubmit = { handleSubmit }
@@ -35,7 +35,7 @@ function PopupEditProfile (props) {
                  name="description" required placeholder="Ваш род занятий" value={ description || '' } onChange={ handleDescription } minLength="2" maxLength="200" />
           <span className="description-input-error popup__input-error" />
         </label>
-    < /PopupWithForm>
+    </PopupWithForm>
   )
 }
 

@@ -11,7 +11,7 @@ function Main (props) {
       <section className="profile">
         <div className="profile__avatar-area">
           <img src={ userItem.avatar } className="profile__avatar" alt="Аватар профиля" />
-          < button
+          <button
             type="button"
             className="profile__avatar-edit"
             aria-label="Редактировать аватар профиля"
@@ -19,14 +19,14 @@ function Main (props) {
         </div>
         <div className="profile__info">
           <h1 className="profile__name">{ userItem.name }</h1>
-          < button
+          <button
             type="button"
             className="profile__editor"
             aria-label="Редактировать профиль"
             onClick={ props.onEditProfile } />
           <p className="profile__description">{ userItem.about }</p>
         </div>
-        < button
+        <button
           type="button"
           className="profile__add-mesto"
           aria-label="Добавить место"
@@ -34,7 +34,7 @@ function Main (props) {
       </section>
       <section className="cards">
         { props.cards.map( (cardItem) => (
-          < Card
+          <Card
             key = { cardItem._id }
             link = { cardItem.link }
             name = { cardItem.name }
