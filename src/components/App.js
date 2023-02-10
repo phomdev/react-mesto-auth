@@ -63,7 +63,7 @@ function App () {
   function handleUpdateAvatar (link) {
     apiConnect.sendAvatarData(link)
       .then( (res) => { setCurrentUser(res); closeAllPopups() })
-      .catch( (err) => { console.log(`Возникла ошибка при зименении аватара, ${err}`) })
+      .catch( (err) => { console.log(`Возникла ошибка при изменении аватара, ${err}`) })
   }
   // Обработчик для увеличения изображения и передачи данных
   function handleCardClick (cardItem) {
@@ -113,7 +113,7 @@ function App () {
   function handleLogin (password, email) {
     apiAuth.userAuthorization(password, email)
       .then( (res) => {
-        // Если токен валиден, авторизовываем и перебрасывам на главную
+        // Если токен валиден, авторизовываем и перебрасываем на главную
         if (res.token) {
           localStorage.setItem('token', res.token);
           setEmail(email);
