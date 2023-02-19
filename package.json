@@ -1,5 +1,6 @@
 {
   "name": "react-mesto-auth",
+  "homepage": "/react-mesto-auth/#",
   "version": "0.1.0",
   "private": true,
   "description": "The project \"Mesto React\" of the course \"Web developer\" from Yandex Practicum",
